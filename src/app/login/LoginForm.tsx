@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import cookies, { parseCookies } from 'nookies';
+import { useState } from 'react';
 
 export function LoginForm() {
   const router = useRouter();
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,15 +25,22 @@ export function LoginForm() {
 
     if (usuario === usuarioGuardado && password === passwordGuardado) {
       cookies.set(null, 'isLogged', 'true', {
-        maxAge: 30 * 24 * 60 * 60
+        maxAge: 30 * 24 * 60 * 60,
       });
 
       router.push('/dashboard');
+    } else {
+      setError(true);
     }
   };
 
   return (
     <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
+      {error && (
+        <div className="bg-red-400 text-white p-3 mb-2">
+          Algo anduvo mal, intente nuevamente.
+        </div>
+      )}
       <div className="flex gap-2 border border-solid border-white rounded-lg p-2">
         <Image src="/user.svg" width={24} height={24} alt="" />
         <input
