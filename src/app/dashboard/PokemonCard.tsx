@@ -5,7 +5,7 @@ interface PokemonCardProps {
   url: string;
 }
 
-const getData = async (url: string) => {
+const getPokemonData = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
 
@@ -13,7 +13,7 @@ const getData = async (url: string) => {
 };
 
 export async function PokemonCard({ name, url }: PokemonCardProps) {
-  const data = await getData(url);
+  const data = await getPokemonData(url);
 
   return (
     <div className="rounded p-3 border border-solid border-black flex flex-col items-center justify-center gap-2">

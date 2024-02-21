@@ -1,9 +1,18 @@
-import { getPokemones } from '@/data/pokemon';
-import { useRouter } from 'next/navigation';
-import cookies from 'nookies';
 import { PokemonCard } from './PokemonCard';
 import { Suspense } from 'react';
 import Loading from './loading';
+
+const getPokemones = async () => {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+
+  if (response.ok) {
+    const data = await response.json();
+
+    return data.results;
+  } else {
+    return [];
+  }
+};
 
 export default async function DashboardPage() {
   const pokemones = await getPokemones();
